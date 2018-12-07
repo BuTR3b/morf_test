@@ -1,0 +1,111 @@
+#include <stdio.h>
+#include <string.h>
+int main()
+{
+  FILE *prist_f;
+  FILE *koren_f;
+  FILE *okon_f;
+  char pristavka[100], koren[100], okon[100], word[10];
+  char input_prist[10], input_koren[10], input_okon[10];
+  char *prist_estr, *koren_estr, *okon_estr;
+  char *prist_istr, *koren_istr, *okon_istr;
+  int input;
+  char NO[] = {"qqq"};
+  printf("Enter word: ");
+  scanf("%s", &word);
+  prist_f = fopen("prist.txt", "a+");
+  koren_f = fopen("koren.txt", "a+");
+  okon_f = fopen("okon.txt", "a+");
+  while (1) //работает только с концом файла
+  // while (feof(prist_f) != 0)
+  // while (prist_estr != NULL)
+  // while (feof(prist_f) != 0 || prist_estr != NULL)
+  // do
+  {
+    // prist_istr = strstr(word, fgets(pristavka, sizeof(pristavka), prist_f));
+    prist_estr = fgets(pristavka, sizeof(pristavka), prist_f);
+    prist_istr = strstr(word, prist_estr);
+    if (prist_istr == NULL)
+    {
+       //если нет совпадений, то дальше
+       continue;
+    }
+    else
+    {
+      printf("Приставка - %s\n", prist_estr);
+      break;
+    }
+  }
+  // while ((feof(prist_f) != 0) || (prist_estr != NULL));
+  while (1)
+  {
+    koren_estr = fgets(koren, sizeof(koren), koren_f);
+    koren_istr = strstr(word, koren_estr);
+    if (koren_istr == NULL)
+    {
+       continue;
+    }
+    else
+    {
+      printf("Корень - %s\n", koren_estr);
+      break;
+    }
+  }
+  while (1)
+  {
+    okon_estr = fgets(okon, sizeof(okon), okon_f);
+    koren_istr = strstr(word, okon_estr);
+    if (okon_istr == NULL)
+    {
+       continue;
+    }
+    else
+    {
+      printf("Корень - %s\n", okon_estr);
+      break;
+    }
+  }
+  puts("Записать новые части речи? 1 - да, 0 - нет\n");
+  scanf("%d", &input);
+  if (input == 1)
+  {
+    puts("Введите qqq, чтобы ничего не записывать\n");
+    puts("Записать приставку: ");
+    scanf("%s", input_prist);
+    if (strcmp(input_prist, NO) == 0)
+      fclose(prist_f);
+    else
+    {
+      fprintf(prist_f, "\n%s", &input_prist);
+      puts("Приставка записана\n");
+      fclose(prist_f);
+    }
+    puts("Записать корень: ");
+    scanf("%s", input_koren);
+    if (strcmp(input_koren, NO) == 0)
+      fclose(koren_f);
+    else
+    {
+      fprintf(prist_f, "\n%s", &input_koren);
+      puts("Корень записан\n");
+      fclose(koren_f);
+    }
+    puts("Записать окончание: ");
+    scanf("%s", input_okon);
+    if (strcmp(input_okon, NO) == 0)
+      fclose(okon_f);
+    else
+    {
+      fprintf(prist_f, "\n%s", &input_okon);
+      puts("Окончание записано\n");
+      fclose(okon_f);
+    }
+  }
+  else
+  {
+    fclose(prist_f);
+    fclose(koren_f);
+    fclose(okon_f);
+  }
+  return 0;
+}
